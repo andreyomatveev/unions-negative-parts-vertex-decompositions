@@ -12,7 +12,6 @@
 --
 -- below we calculate the numbers of Smirnov words over three-letter and four-letter alphabets.
 
-{-# LANGUAGE MultiWayIf #-}
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 
 module SmirnovWordsModule
@@ -78,27 +77,20 @@ numberOfSmirnovWordsOverThreeLetterAlphabet ::
 numberOfSmirnovWordsOverThreeLetterAlphabet (startWith, endWith) (numberOfThetas3, numberOfAlphas3, numberOfBetas3)
   | startWith == endWith =
     numberOfThetaThetaSmirnovWordsOverThreeLetterAlphabet
-      if | (startWith, endWith) == (Theta3, Theta3) ->
-           (numberOfThetas3, numberOfAlphas3, numberOfBetas3)
-         | (startWith, endWith) == (Alpha3, Alpha3) ->
-           (numberOfAlphas3, numberOfThetas3, numberOfBetas3)
-         | (startWith, endWith) == (Beta3, Beta3) ->
-           (numberOfBetas3, numberOfAlphas3, numberOfThetas3)
+      (case startWith of
+         Theta3 -> (numberOfThetas3, numberOfAlphas3, numberOfBetas3)
+         Alpha3 -> (numberOfAlphas3, numberOfThetas3, numberOfBetas3)
+         Beta3  -> (numberOfBetas3, numberOfAlphas3, numberOfThetas3))
   | otherwise =
     numberOfThetaBetaSmirnovWordsOverThreeLetterAlphabet
-      if | (startWith, endWith) == (Theta3, Beta3) ->
-           (numberOfThetas3, numberOfAlphas3, numberOfBetas3)
-         | (startWith, endWith) == (Theta3, Alpha3) ->
-           (numberOfThetas3, numberOfBetas3, numberOfAlphas3)
-         | (startWith, endWith) == (Alpha3, Theta3) ->
-           (numberOfAlphas3, numberOfBetas3, numberOfThetas3)
-         | (startWith, endWith) == (Alpha3, Beta3) ->
-           (numberOfAlphas3, numberOfThetas3, numberOfBetas3)
-         | (startWith, endWith) == (Beta3, Theta3) ->
-           (numberOfBetas3, numberOfAlphas3, numberOfThetas3)
-         | (startWith, endWith) == (Beta3, Alpha3) ->
-           (numberOfBetas3, numberOfThetas3, numberOfAlphas3)
-         
+      (case (startWith, endWith) of
+         (Theta3, Beta3)  -> (numberOfThetas3, numberOfAlphas3, numberOfBetas3)
+         (Theta3, Alpha3) -> (numberOfThetas3, numberOfBetas3, numberOfAlphas3)
+         (Alpha3, Theta3) -> (numberOfAlphas3, numberOfBetas3, numberOfThetas3)
+         (Alpha3, Beta3)  -> (numberOfAlphas3, numberOfThetas3, numberOfBetas3)
+         (Beta3, Theta3)  -> (numberOfBetas3, numberOfAlphas3, numberOfThetas3)
+         (Beta3, Alpha3)  -> (numberOfBetas3, numberOfThetas3, numberOfAlphas3))
+
 numberOfSmirnovWordsOverFourLetterAlphabet ::
      (Alphabet4, Alphabet4) -> ParikhVector4 -> Integer
 -- Name means "To get (quite quickly) the number of distinct Smirnov words over the ordered four-letter alphabet $(\theta, \alpha, \beta, \gamma)$
@@ -118,40 +110,42 @@ numberOfSmirnovWordsOverFourLetterAlphabet ::
 numberOfSmirnovWordsOverFourLetterAlphabet (startWith, endWith) (numberOfThetas4, numberOfAlphas4, numberOfBetas4, numberOfGammas4)
   | startWith == endWith =
     numberOfThetaThetaSmirnovWordsOverFourLetterAlphabet
-      if | (startWith, endWith) == (Theta4, Theta4) ->
+      (case startWith of
+         Theta4 ->
            (numberOfThetas4, numberOfAlphas4, numberOfBetas4, numberOfGammas4)
-         | (startWith, endWith) == (Alpha4, Alpha4) ->
+         Alpha4 ->
            (numberOfAlphas4, numberOfThetas4, numberOfBetas4, numberOfGammas4)
-         | (startWith, endWith) == (Beta4, Beta4) ->
+         Beta4 ->
            (numberOfBetas4, numberOfAlphas4, numberOfThetas4, numberOfGammas4)
-         | (startWith, endWith) == (Gamma4, Gamma4) ->
-           (numberOfGammas4, numberOfAlphas4, numberOfBetas4, numberOfThetas4)
+         Gamma4 ->
+           (numberOfGammas4, numberOfAlphas4, numberOfBetas4, numberOfThetas4))
   | otherwise =
     numberOfThetaAlphaSmirnovWordsOverFourLetterAlphabet
-      if | (startWith, endWith) == (Theta4, Alpha4) ->
+      (case (startWith, endWith) of
+         (Theta4, Alpha4) ->
            (numberOfThetas4, numberOfAlphas4, numberOfBetas4, numberOfGammas4)
-         | (startWith, endWith) == (Theta4, Beta4) ->
+         (Theta4, Beta4) ->
            (numberOfThetas4, numberOfBetas4, numberOfAlphas4, numberOfGammas4)
-         | (startWith, endWith) == (Theta4, Gamma4) ->
+         (Theta4, Gamma4) ->
            (numberOfThetas4, numberOfGammas4, numberOfBetas4, numberOfAlphas4)
-         | (startWith, endWith) == (Alpha4, Theta4) ->
+         (Alpha4, Theta4) ->
            (numberOfAlphas4, numberOfThetas4, numberOfBetas4, numberOfGammas4)
-         | (startWith, endWith) == (Alpha4, Beta4) ->
+         (Alpha4, Beta4) ->
            (numberOfAlphas4, numberOfBetas4, numberOfThetas4, numberOfGammas4)
-         | (startWith, endWith) == (Alpha4, Gamma4) ->
+         (Alpha4, Gamma4) ->
            (numberOfAlphas4, numberOfGammas4, numberOfThetas4, numberOfBetas4)
-         | (startWith, endWith) == (Beta4, Theta4) ->
+         (Beta4, Theta4) ->
            (numberOfBetas4, numberOfThetas4, numberOfAlphas4, numberOfGammas4)
-         | (startWith, endWith) == (Beta4, Alpha4) ->
+         (Beta4, Alpha4) ->
            (numberOfBetas4, numberOfAlphas4, numberOfThetas4, numberOfGammas4)
-         | (startWith, endWith) == (Beta4, Gamma4) ->
+         (Beta4, Gamma4) ->
            (numberOfBetas4, numberOfGammas4, numberOfThetas4, numberOfAlphas4)
-         | (startWith, endWith) == (Gamma4, Theta4) ->
+         (Gamma4, Theta4) ->
            (numberOfGammas4, numberOfThetas4, numberOfBetas4, numberOfAlphas4)
-         | (startWith, endWith) == (Gamma4, Alpha4) ->
+         (Gamma4, Alpha4) ->
            (numberOfGammas4, numberOfAlphas4, numberOfBetas4, numberOfThetas4)
-         | (startWith, endWith) == (Gamma4, Beta4) ->
-           (numberOfGammas4, numberOfBetas4, numberOfAlphas4, numberOfThetas4)
+         (Gamma4, Beta4) ->
+           (numberOfGammas4, numberOfBetas4, numberOfAlphas4, numberOfThetas4))
 
 numberOfThetaThetaSmirnovWordsOverThreeLetterAlphabet ::
      ParikhVector3 -> Integer
