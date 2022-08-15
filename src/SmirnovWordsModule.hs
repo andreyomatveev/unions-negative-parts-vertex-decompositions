@@ -310,14 +310,14 @@ doThetaThetaCalculations (numberOfThetas, numberOfAlphas, numberOfBetas, numberO
         2 * r +
         4 * t -
         3
-  let expo2B = expo2A + 2
-  let expo3A =
+      expo2B = expo2A + 2
+      expo3A =
         numberOfAlphas + numberOfBetas + numberOfGammas - 2 * numberOfThetas + s +
         r -
         3 * t +
         2
-  let expo3B = expo3A - 2
-  let preProductA =
+      expo3B = expo3A - 2
+      preProductA =
         choose
           (numberOfThetas - s - 1)
           (-numberOfAlphas - numberOfBetas - numberOfGammas + 3 * numberOfThetas -
@@ -335,7 +335,7 @@ doThetaThetaCalculations (numberOfThetas, numberOfAlphas, numberOfBetas, numberO
           (-numberOfBetas - numberOfGammas + 2 * numberOfThetas - 2 * p + 2 * t -
            2)
           (-numberOfBetas + numberOfThetas - p + t - 1)
-  let preProductB =
+      preProductB =
         choose
           (numberOfThetas - s - 1)
           (-numberOfAlphas - numberOfBetas - numberOfGammas + 3 * numberOfThetas -
@@ -351,19 +351,19 @@ doThetaThetaCalculations (numberOfThetas, numberOfAlphas, numberOfBetas, numberO
         choose
           (-numberOfBetas - numberOfGammas + 2 * numberOfThetas - 2 * p + 2 * t)
           (-numberOfBetas + numberOfThetas - p + t)
-  let prePreProductA =
+      prePreProductA =
         if expo2A >= 0
           then preProductA * (2 ^ expo2A)
           else preProductA `div` (2 ^ (-expo2A))
-  let prePrePreProductA =
+      prePrePreProductA =
         if expo3A >= 0
           then prePreProductA * (3 ^ expo3A)
           else prePreProductA `div` (3 ^ (-expo3A))
-  let prePreProductB =
+      prePreProductB =
         if expo2B >= 0
           then preProductB * (2 ^ expo2B)
           else preProductB `div` (2 ^ (-expo2B))
-  let prePrePreProductB =
+      prePrePreProductB =
         if expo3B >= 0
           then prePreProductB * (3 ^ expo3B)
           else prePreProductB `div` (3 ^ (-expo3B))
@@ -381,16 +381,16 @@ doThetaAlphaCalculations (numberOfThetas, numberOfAlphas, numberOfBetas, numberO
         2 * r +
         4 * t -
         2
-  let expo2B = expo2A + 1
-  let expo2C = expo2A + 2
-  let expo3A =
+      expo2B = expo2A + 1
+      expo2C = expo2A + 2
+      expo3A =
         numberOfAlphas + numberOfBetas + numberOfGammas - 2 * numberOfThetas + s +
         r -
         3 * t +
         1
-  let expo3B = expo3A - 1
-  let expo3C = expo3A - 2
-  let preProductA =
+      expo3B = expo3A - 1
+      expo3C = expo3A - 2
+      preProductA =
         choose
           (numberOfThetas - s - 1)
           (-numberOfAlphas - numberOfBetas - numberOfGammas + 3 * numberOfThetas -
@@ -408,7 +408,7 @@ doThetaAlphaCalculations (numberOfThetas, numberOfAlphas, numberOfBetas, numberO
           (-numberOfBetas - numberOfGammas + 2 * numberOfThetas - 2 * p + 2 * t -
            2)
           (-numberOfBetas + numberOfThetas - p + t - 1)
-  let preProductB =
+      preProductB =
         choose
           (numberOfThetas - s - 1)
           (-numberOfAlphas - numberOfBetas - numberOfGammas + 3 * numberOfThetas -
@@ -422,7 +422,7 @@ doThetaAlphaCalculations (numberOfThetas, numberOfAlphas, numberOfBetas, numberO
            3 * t -
            1)
           (-numberOfAlphas + numberOfThetas + p - s + t)
-  let preProductC =
+      preProductC =
         choose
           (numberOfThetas - s - 1)
           (-numberOfAlphas - numberOfBetas - numberOfGammas + 3 * numberOfThetas -
@@ -434,27 +434,27 @@ doThetaAlphaCalculations (numberOfThetas, numberOfAlphas, numberOfBetas, numberO
            2 * s +
            3 * t)
           (-numberOfAlphas + numberOfThetas + p - s + t)
-  let prePreProductA =
+      prePreProductA =
         if expo2A >= 0
           then preProductA * (2 ^ expo2A)
           else preProductA `div` (2 ^ (-expo2A))
-  let prePrePreProductA =
+      prePrePreProductA =
         if expo3A >= 0
           then prePreProductA * (3 ^ expo3A)
           else prePreProductA `div` (3 ^ (-expo3A))
-  let prePreProductB =
+      prePreProductB =
         if expo2B >= 0
           then preProductB * (2 ^ expo2B)
           else preProductB `div` (2 ^ (-expo2B))
-  let prePrePreProductB =
+      prePrePreProductB =
         if expo3B >= 0
           then prePreProductB * (3 ^ expo3B)
           else prePreProductB `div` (3 ^ (-expo3B))
-  let prePreProductC =
+      prePreProductC =
         if expo2C >= 0
           then preProductC * (2 ^ expo2C)
           else preProductC `div` (2 ^ (-expo2C))
-  let prePrePreProductC =
+      prePrePreProductC =
         if expo3C >= 0
           then prePreProductC * (3 ^ expo3C)
           else prePreProductC `div` (3 ^ (-expo3C))
