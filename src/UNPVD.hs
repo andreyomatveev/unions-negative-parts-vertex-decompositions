@@ -39,7 +39,6 @@ import           Math.Combinatorics.Exact.Binomial (choose)
 import qualified SmirnovWordsModule                as SWM
 
 {------------------------------------------------------------------------------}
-
 -- Calculations for Theorem 7.5 of the monograph.
 --
 -- Given positive odd integers lCap, l', l'', and positive integers j' and j'',
@@ -47,7 +46,6 @@ import qualified SmirnovWordsModule                as SWM
 -- the ground set [t] :={1, 2, ..., t}:
 -- { (A,B) <- 2^[t] X 2^[t]:  |A| = j',  |B| = j'', |A\cap B| /= 0, |A\cup B| = t,
 --    q(A\cap B) = lCap,  q(A-B) = l', q(B-A) = l'' } .                                              (*)
-
 theorem7Dot5I ::
      Integer -> (Integer, Integer) -> (Integer, Integer, Integer) -> Integer
 -- Theorem 7.5(i): In the family (*) there are theorem7Dot5I t (j', j'') (lCap, l', l'') pairs (A,B)
@@ -159,7 +157,6 @@ theorem7Dot5V t (j', j'') (lCap, l', l'')
     numOfComps ((l'' - 1) `div` 2) (t - j')
 
 {------------------------------------------------------------------------------}
-
 -- Calculations for Theorem 7.7 of the monograph.
 --
 -- Given positive odd integers lCap and lTriangle, and positive integers j' and j'',
@@ -167,14 +164,13 @@ theorem7Dot5V t (j', j'') (lCap, l', l'')
 -- the ground set [t] :={1, 2, ..., t}:
 -- { (A,B) <- 2^[t] X 2^[t]:  |A| = j',  |B| = j'', |A\cap B| /= 0, |A\cup B| = t,
 --    q(A\cap B) = lCap,  q(A\vartriangle B) = lTraingle } .                                              (**)
-
 theorem7Dot7I :: Integer -> (Integer, Integer) -> (Integer, Integer) -> Integer
 -- Theorem 7.7(i): In the family (**) there are theorem7Dot7I t (j', j'') (lCap, lTriangle) pairs (A,B)
 -- of sets A and B such that {1,t}\cap A = {1}, and  {1,t}\cap B = {1,t} .
 -- Call for instance (as in Example 7.8(i) of the monograph)
 --      ghci> theorem7Dot7I 5 (3, 4) (3, 3)
 -- to get the result:
---      2
+--      4
 theorem7Dot7I t (j', j'') (lCap, lTriangle)
   | j' <= 0 || j' >= t = -1 -- "N/A: j' should be between 1 (included) and (t-1) (included)"
   | j'' <= 0 || j'' >= t = -2 -- "N/A: j'' should be between 1 (included) and (t-1) (included)"
@@ -183,7 +179,8 @@ theorem7Dot7I t (j', j'') (lCap, lTriangle)
   | lCap /= lTriangle = 0
   | otherwise =
     numOfComps ((lCap + 1) `div` 2) (j' + j'' - t) *
-    numOfComps ((lTriangle + 1) `div` 2) (2 * t - j' - j'')
+    numOfComps ((lTriangle + 1) `div` 2) (2 * t - j' - j'') *
+    choose (2 * t - j' - j'' - 1) (t - j'')
 
 theorem7Dot7II :: Integer -> (Integer, Integer) -> (Integer, Integer) -> Integer
 -- Theorem 7.7(ii): In the family (**) there are theorem7Dot7II t (j', j'') (lCap, lTriangle) pairs (A,B)
@@ -191,7 +188,7 @@ theorem7Dot7II :: Integer -> (Integer, Integer) -> (Integer, Integer) -> Integer
 -- Call for instance (as in Example 7.8(ii) of the monograph)
 --      ghci> theorem7Dot7II 5 (3, 3) (3, 3)
 -- to get the result:
---      3
+--      6
 theorem7Dot7II t (j', j'') (lCap, lTriangle)
   | j' <= 0 || j' >= t = -1 -- "N/A: j' should be between 1 (included) and (t-1) (included)"
   | j'' <= 0 || j'' >= t = -2 -- "N/A: j'' should be between 1 (included) and (t-1) (included)"
@@ -200,7 +197,8 @@ theorem7Dot7II t (j', j'') (lCap, lTriangle)
   | lCap /= lTriangle = 0
   | otherwise =
     numOfComps ((lCap - 1) `div` 2) (j' + j'' - t) *
-    numOfComps ((lTriangle + 1) `div` 2) (2 * t - j' - j'')
+    numOfComps ((lTriangle + 1) `div` 2) (2 * t - j' - j'') *
+    choose (2 * t - j' - j'' - 2) (t - j'' - 1)
 
 theorem7Dot7III ::
      Integer -> (Integer, Integer) -> (Integer, Integer) -> Integer
@@ -209,7 +207,7 @@ theorem7Dot7III ::
 -- Call for instance (as in Example 7.8(iii) of the monograph)
 --      ghci> theorem7Dot7III 5 (4, 4) (3, 3)
 -- to get the result:
---      2
+--      4
 theorem7Dot7III t (j', j'') (lCap, lTriangle)
   | j' <= 0 || j' >= t = -1 -- "N/A: j' should be between 1 (included) and (t-1) (included)"
   | j'' <= 0 || j'' >= t = -2 -- "N/A: j'' should be between 1 (included) and (t-1) (included)"
@@ -218,7 +216,8 @@ theorem7Dot7III t (j', j'') (lCap, lTriangle)
   | lCap /= lTriangle = 0
   | otherwise =
     numOfComps ((lCap + 1) `div` 2) (j' + j'' - t) *
-    numOfComps ((lTriangle - 1) `div` 2) (2 * t - j' - j'')
+    numOfComps ((lTriangle - 1) `div` 2) (2 * t - j' - j'') *
+    choose (2 * t - j' - j'') (t - j'')
 
 theorem7Dot7IV :: Integer -> (Integer, Integer) -> (Integer, Integer) -> Integer
 -- Theorem 7.7(iv): In the family (**) there are theorem7Dot7IV t (j', j'') (lCap, lTriangle) pairs (A,B)
@@ -235,7 +234,8 @@ theorem7Dot7IV t (j', j'') (lCap, lTriangle)
   | lCap /= lTriangle = 0
   | otherwise =
     numOfComps ((lCap - 1) `div` 2) (j' + j'' - t) *
-    numOfComps ((lTriangle + 1) `div` 2) (2 * t - j' - j'')
+    numOfComps ((lTriangle + 1) `div` 2) (2 * t - j' - j'') *
+    choose (2 * t - j' - j'' - 2) (t - j')
 
 theorem7Dot7V :: Integer -> (Integer, Integer) -> (Integer, Integer) -> Integer
 -- Theorem 7.7(v): In the family (**) there are theorem7Dot7V t (j', j'') (lCap, lTriangle) pairs (A,B)
@@ -252,10 +252,10 @@ theorem7Dot7V t (j', j'') (lCap, lTriangle)
   | lCap /= lTriangle = 0
   | otherwise =
     numOfComps ((lCap + 1) `div` 2) (j' + j'' - t) *
-    numOfComps ((lTriangle + 1) `div` 2) (2 * t - j' - j'')
+    numOfComps ((lTriangle + 1) `div` 2) (2 * t - j' - j'') *
+    choose (2 * t - j' - j'' - 1) (t - j')
 
 {------------------------------------------------------------------------------}
-
 -- Calculations for Theorem 7.9 of the monograph.
 --
 -- Given positive odd integers l', l'', lCap, l, and positive integers j' and j'',
@@ -263,7 +263,6 @@ theorem7Dot7V t (j', j'') (lCap, lTriangle)
 -- the ground set [t] :={1, 2, ..., t}:
 -- { (A,B) <- 2^[t] X 2^[t]:  |A| = j',  |B| = j'', |A\cap B| = j /= 0, |A\cup B| < t,
 --    q(A-B) = l', q(B-A) = l'', q(A\cap B) = lCap,  q(A\cup B) = l } .                                       (***)
-
 theorem7Dot9I ::
      Integer
   -> (Integer, Integer, Integer)
@@ -545,7 +544,6 @@ theorem7Dot9X t (j', j'', j) (l', l'', lCap, l)
     numOfComps ((lCap + 1) `div` 2) j
 
 {------------------------------------------------------------------------------}
-
 -- Calculations for Theorem 7.11 of the monograph.
 --
 -- Given positive odd integers lTriangle, lCap, l, and positive integers j' and j'',
@@ -553,7 +551,6 @@ theorem7Dot9X t (j', j'', j) (l', l'', lCap, l)
 -- the ground set [t] :={1, 2, ..., t}:
 -- { (A,B) <- 2^[t] X 2^[t]:  |A| = j',  |B| = j'', |A\cap B| = j /= 0, |A\cup B| < t,
 --    q(A\vartriangle B) = lTriangle, q(A\cap B) = lCap, q(A\cup B) = l } .                                       (****)
-
 theorem7Dot11I ::
      Integer
   -> (Integer, Integer, Integer)
@@ -564,7 +561,7 @@ theorem7Dot11I ::
 -- Call for instance (as in Example 7.12(i) of the monograph)
 --      ghci> theorem7Dot11I 5 (2, 2, 1) (3, 1, 3)
 -- to get the result:
---      1
+--      2
 theorem7Dot11I t (j', j'', j) (lTriangle, lCap, l)
   | j' <= 0 || j' >= t = -1 -- "N/A: j' should be between 1 (included) and (t-1) (included)"
   | j'' <= 0 || j'' >= t = -2 -- "N/A: j'' should be between 1 (included) and (t-1) (included)"
@@ -578,7 +575,8 @@ theorem7Dot11I t (j', j'', j) (lTriangle, lCap, l)
       ((l + 1) `div` 2, (lTriangle - 1) `div` 2, (lCap + 1) `div` 2) *
     numOfComps ((l + 1) `div` 2) (t - j' - j'' + j) *
     numOfComps ((lTriangle - 1) `div` 2) (j' + j'' - 2 * j) *
-    numOfComps ((lCap + 1) `div` 2) j
+    numOfComps ((lCap + 1) `div` 2) j *
+    choose (j' + j'' - 2 * j) (j' - j)
 
 theorem7Dot11II ::
      Integer
@@ -604,7 +602,8 @@ theorem7Dot11II t (j', j'', j) (lTriangle, lCap, l)
       ((l - 1) `div` 2, (lTriangle + 1) `div` 2, (lCap + 1) `div` 2) *
     numOfComps ((l - 1) `div` 2) (t - j' - j'' + j) *
     numOfComps ((lTriangle + 1) `div` 2) (j' + j'' - 2 * j) *
-    numOfComps ((lCap + 1) `div` 2) j
+    numOfComps ((lCap + 1) `div` 2) j *
+    choose (j' + j'' - 2 * j - 1) (j' - j)
 
 theorem7Dot11III ::
      Integer
@@ -616,7 +615,7 @@ theorem7Dot11III ::
 -- Call for instance (as in Example 7.12(iii) of the monograph)
 --      ghci> theorem7Dot11III 5 (3, 2, 1) (1, 3, 1)
 -- to get the result:
---      1
+--      2
 theorem7Dot11III t (j', j'', j) (lTriangle, lCap, l)
   | j' <= 0 || j' >= t = -1 -- "N/A: j' should be between 1 (included) and (t-1) (included)"
   | j'' <= 0 || j'' >= t = -2 -- "N/A: j'' should be between 1 (included) and (t-1) (included)"
@@ -630,7 +629,8 @@ theorem7Dot11III t (j', j'', j) (lTriangle, lCap, l)
       ((l + 1) `div` 2, (lTriangle + 1) `div` 2, (lCap - 1) `div` 2) *
     numOfComps ((l + 1) `div` 2) (t - j' - j'' + j) *
     numOfComps ((lTriangle + 1) `div` 2) (j' + j'' - 2 * j) *
-    numOfComps ((lCap - 1) `div` 2) j
+    numOfComps ((lCap - 1) `div` 2) j *
+    choose (j' + j'' - 2 * j - 1) (j'' - j)
 
 theorem7Dot11IV ::
      Integer
@@ -656,7 +656,8 @@ theorem7Dot11IV t (j', j'', j) (lTriangle, lCap, l)
       ((l - 1) `div` 2, (lTriangle + 1) `div` 2, (lCap - 1) `div` 2) *
     numOfComps ((l - 1) `div` 2) (t - j' - j'' + j) *
     numOfComps ((lTriangle + 1) `div` 2) (j' + j'' - 2 * j) *
-    numOfComps ((lCap - 1) `div` 2) j
+    numOfComps ((lCap - 1) `div` 2) j *
+    choose (j' + j'' - 2 * j - 2) (j' - j - 1)
 
 theorem7Dot11V ::
      Integer
@@ -668,7 +669,7 @@ theorem7Dot11V ::
 -- Call for instance (as in Example 7.12(v) of the monograph)
 --      ghci> theorem7Dot11V 5 (3, 3, 2) (3, 3, 3)
 -- to get the result:
---      2
+--      4
 theorem7Dot11V t (j', j'', j) (lTriangle, lCap, l)
   | j' <= 0 || j' >= t = -1 -- "N/A: j' should be between 1 (included) and (t-1) (included)"
   | j'' <= 0 || j'' >= t = -2 -- "N/A: j'' should be between 1 (included) and (t-1) (included)"
@@ -682,7 +683,8 @@ theorem7Dot11V t (j', j'', j) (lTriangle, lCap, l)
       ((l - 1) `div` 2, (lTriangle - 1) `div` 2, (lCap + 1) `div` 2) *
     numOfComps ((l - 1) `div` 2) (t - j' - j'' + j) *
     numOfComps ((lTriangle + 1) `div` 2) (j' + j'' - 2 * j) *
-    numOfComps ((lCap - 1) `div` 2) j
+    numOfComps ((lCap - 1) `div` 2) j *
+    choose (j' + j'' - 2 * j) (j' - j)
 
 theorem7Dot11VI ::
      Integer
@@ -708,7 +710,8 @@ theorem7Dot11VI t (j', j'', j) (lTriangle, lCap, l)
       ((l - 1) `div` 2, (lTriangle + 1) `div` 2, (lCap - 1) `div` 2) *
     numOfComps ((l - 1) `div` 2) (t - j' - j'' + j) *
     numOfComps ((lTriangle + 1) `div` 2) (j' + j'' - 2 * j) *
-    numOfComps ((lCap - 1) `div` 2) j
+    numOfComps ((lCap - 1) `div` 2) j *
+    choose (j' + j'' - 2 * j - 2) (j'' - j)
 
 theorem7Dot11VII ::
      Integer
@@ -720,7 +723,7 @@ theorem7Dot11VII ::
 -- Call for instance (as in Example 7.12(vii) of the monograph)
 --      ghci> theorem7Dot11VII 5 (2, 2, 1) (3, 1, 3)
 -- to get the result:
---      4
+--      1
 theorem7Dot11VII t (j', j'', j) (lTriangle, lCap, l)
   | j' <= 0 || j' >= t = -1 -- "N/A: j' should be between 1 (included) and (t-1) (included)"
   | j'' <= 0 || j'' >= t = -2 -- "N/A: j'' should be between 1 (included) and (t-1) (included)"
@@ -734,7 +737,8 @@ theorem7Dot11VII t (j', j'', j) (lTriangle, lCap, l)
       ((l - 1) `div` 2, (lTriangle + 1) `div` 2, (lCap + 1) `div` 2) *
     numOfComps ((l - 1) `div` 2) (t - j' - j'' + j) *
     numOfComps ((lTriangle + 1) `div` 2) (j' + j'' - 2 * j) *
-    numOfComps ((lCap + 1) `div` 2) j
+    numOfComps ((lCap + 1) `div` 2) j *
+    choose (j' + j'' - 2 * j - 1) (j'' - j)
 
 theorem7Dot11VIII ::
      Integer
@@ -746,7 +750,7 @@ theorem7Dot11VIII ::
 -- Call for instance (as in Example 7.12(viii) of the monograph)
 --      ghci> theorem7Dot11VIII 5 (2, 2, 1) (3, 3, 3)
 -- to get the result:
---      2
+--      4
 theorem7Dot11VIII t (j', j'', j) (lTriangle, lCap, l)
   | j' <= 0 || j' >= t = -1 -- "N/A: j' should be between 1 (included) and (t-1) (included)"
   | j'' <= 0 || j'' >= t = -2 -- "N/A: j'' should be between 1 (included) and (t-1) (included)"
@@ -760,7 +764,8 @@ theorem7Dot11VIII t (j', j'', j) (lTriangle, lCap, l)
       ((l + 1) `div` 2, (lTriangle - 1) `div` 2, (lCap - 1) `div` 2) *
     numOfComps ((l + 1) `div` 2) (t - j' - j'' + j) *
     numOfComps ((lTriangle - 1) `div` 2) (j' + j'' - 2 * j) *
-    numOfComps ((lCap - 1) `div` 2) j
+    numOfComps ((lCap - 1) `div` 2) j *
+    choose (j' + j'' - 2 * j) (j' - j)
 
 theorem7Dot11IX ::
      Integer
@@ -786,7 +791,8 @@ theorem7Dot11IX t (j', j'', j) (lTriangle, lCap, l)
       ((l + 1) `div` 2, (lTriangle + 1) `div` 2, (lCap - 1) `div` 2) *
     numOfComps ((l + 1) `div` 2) (t - j' - j'' + j) *
     numOfComps ((lTriangle + 1) `div` 2) (j' + j'' - 2 * j) *
-    numOfComps ((lCap - 1) `div` 2) j
+    numOfComps ((lCap - 1) `div` 2) j *
+    choose (j' + j'' - 2 * j - 1) (j' - j)
 
 theorem7Dot11X ::
      Integer
@@ -798,7 +804,7 @@ theorem7Dot11X ::
 -- Call for instance (as in Example 7.12(x) of the monograph)
 --      ghci> theorem7Dot11X 5 (2, 2, 1) (3, 1, 3)
 -- to get the result:
---      1
+--      2
 theorem7Dot11X t (j', j'', j) (lTriangle, lCap, l)
   | j' <= 0 || j' >= t = -1 -- "N/A: j' should be between 1 (included) and (t-1) (included)"
   | j'' <= 0 || j'' >= t = -2 -- "N/A: j'' should be between 1 (included) and (t-1) (included)"
@@ -812,7 +818,8 @@ theorem7Dot11X t (j', j'', j) (lTriangle, lCap, l)
       ((l + 1) `div` 2, (lTriangle - 1) `div` 2, (lCap + 1) `div` 2) *
     numOfComps ((l + 1) `div` 2) (t - j' - j'' + j) *
     numOfComps ((lTriangle - 1) `div` 2) (j' + j'' - 2 * j) *
-    numOfComps ((lCap + 1) `div` 2) j
+    numOfComps ((lCap + 1) `div` 2) j *
+    choose (j' + j'' - 2 * j) (j' - j)
 
 numOfComps :: Integer -> Integer -> Integer
 numOfComps numOfPositiveParts positiveInteger =
